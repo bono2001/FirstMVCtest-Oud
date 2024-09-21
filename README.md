@@ -8,5 +8,5 @@ CollectionBox is your personal, customizable collection manager. It allows you t
 🔍 Organize items by categories, conditions, and other attributes.
 💰 Keep an eye on the value and purchase details of your prized possessions.
 📦 Manage items that are for sale or for trade with just a few clicks.
-This app is built using the MVC pattern, helping me understand the structure and flow of web applications while bringing this idea to life.
+This app is built using the MVC pattern and leverages SQL Server Management Studio 19 to handle the database side, ensuring robust data management for your collections. Through this project, I gained hands-on experience with databases, learning how to structure and query data efficiently while bringing this idea to life.
 
