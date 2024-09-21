@@ -22,7 +22,11 @@ namespace FirstMVCtest.Controllers
         // GET: Items
         public async Task<IActionResult> Index()
         {
-            var itemDb = _context.Items.Include(i => i.Category);
+            var itemDb = _context.Items
+                .Include(i => i.Category)
+                .OrderBy(i => i.Category.Name)  // First, order by Category name
+                .ThenBy(i => i.Name);           // Then, within each category, order by Item name
+
             return View(await itemDb.ToListAsync());
         }
 
