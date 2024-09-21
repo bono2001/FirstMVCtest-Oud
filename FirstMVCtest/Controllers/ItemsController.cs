@@ -20,15 +20,48 @@ namespace FirstMVCtest.Controllers
         }
 
         // GET: Items
-        public async Task<IActionResult> Index()
-        {
-            var itemDb = _context.Items
-                .Include(i => i.Category)
-                .OrderBy(i => i.Category.Name)  // First, order by Category name
-                .ThenBy(i => i.Name);           // Then, within each category, order by Item name
 
-            return View(await itemDb.ToListAsync());
+        public async Task<IActionResult> Index(string sortOrder)
+        {
+            // Zorg ervoor dat de huidige sorteeroptie wordt opgeslagen in ViewData
+            ViewData["CurrentSort"] = sortOrder ?? "name_asc"; // Standaard naar "name_asc" als er geen sorteeroptie is
+
+            // Je sorteerlogica...
+            var items = from i in _context.Items.Include(i => i.Category)
+                        select i;
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    items = items.OrderByDescending(i => i.Name);
+                    break;
+                case "price_asc":
+                    items = items.OrderBy(i => i.Price);
+                    break;
+                case "price_desc":
+                    items = items.OrderByDescending(i => i.Price);
+                    break;
+                case "date_asc":
+                    items = items.OrderBy(i => i.PurchaseDate);
+                    break;
+                case "date_desc":
+                    items = items.OrderByDescending(i => i.PurchaseDate);
+                    break;
+                case "category_asc":
+                    items = items.OrderBy(i => i.Category.Name);
+                    break;
+                case "category_desc":
+                    items = items.OrderByDescending(i => i.Category.Name);
+                    break;
+                default:
+                    items = items.OrderBy(i => i.Name); // Standaard sorteren op naam (A-Z)
+                    break;
+            }
+
+            return View(await items.ToListAsync());
         }
+
+
 
         // GET: Items/Details/5
         public async Task<IActionResult> Details(int? id)
